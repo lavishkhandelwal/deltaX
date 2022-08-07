@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="my-3 row">
+        {% if user.is_authenticated %}
+        <h1 class="lead col-sm-12 col-md-8">Top Songs</h1>
+        <a class="btn btn-primary btn-sm col-sm-12 col-md-2 offset-md-2 col-lg-1 offset-lg-3" href="{% url 'add' %}" role = "button">
+            &#43; Add Song
+        </a>
+        {% endif %}
+    </div>
+    <div class="row", style="background-color: #ecebeb50; font-weight: bold;">
+        <div class="col-md-2">Artwork</div>
+        <div class="col-md-2">Song</div>
+        <div class="col-md-2">Date of Release</div>
+        <div class="col-md-3">Artists</div>
+        <div class="col-md-3">Rating</div>
+    </div>
+    <div class="row">
+    {% for song in songs %}
+        <div class="col-md-2"><img class="img-fluid img-thumbnail" src="/media/{{song.cover}}" alt="{{song.name}}" width="100" height = "100"></div>
+        <div class="col-md-2">{{ song.name }}</a></div>
+        <div class="col-md-2">{{ song.dor }}</div>
+        <div class="col-md-3">{% for artist in song.artist.all %} {{ artist }}<br> {% endfor %}</div>
+        <div class="col-md-3">
+            <div class="col">
+                {% if user.is_authenticated %}
+                <form action="{% url 'rate' %}" method="POST">
+                    {% csrf_token %}
+                    <label for="rating">Rate :</label>
+                    <input type="hidden" name="songId" value="{{ song.id }}">
+                    <select name = "rating" id="rating">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <button type = "submit" class = "btn btn-info" value = "Rate">Rate</button><br>
+                </form>
+                <label for = "avgRating" id = "avgRating">Avg Rating : {{ song.rate|floatformat:2 }} </label><br
+                <label for = "peopleRated" id = "peopleRated">People Rated : {{ song.total }} </label>
+                {% else %}
+                <label for = "avgRating" id = "avgRating">Avg Rating : {{ song.rate|floatformat:2 }} </label><br
+                <label for = "peopleRated" id = "peopleRated">People Rated : {{ song.total }} </label>
+                {% endif %}
+            </div>
+        </div>
+        <hr>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

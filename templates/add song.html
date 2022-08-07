@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class = "container">
+    <h3>Add Song</h3>
+    <form action = "" method = "post" id = "post-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group row">
+            <label for="addSong" class="col-sm-2 col-form-label">Song Name</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" name = "songname" id="songname" placeholder="Song Name">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="dateOfRelease" class="col-sm-2 col-form-label">Date of Release</label>
+            <div class="col-sm-5">
+                <input type="date" class="form-control" name = "date" id="date" placeholder="Date of Release">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="uploadArtwork" class="col-sm-2 col-form-label">Artwork</label>
+            <div class="col-sm-5">
+                <input type="file" class="form-control" name = "artwork" id="artwork" placeholder = "Upload Image" style = "border: none;" accept="image/*">
+            </div>
+        </div>
+       
+        <div class="form-group row">
+            <label for = "inputArtists" class="col-sm-2 col-form-label">Artists</label>
+            <div class="col-sm-2">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Artist
+                    </button>
+                    <ul class="dropdown-menu" id = "artist-drop-down">
+                        {% for artist in artists %}
+                        <li class="dropdown-item"><input type = "checkbox" value = "{{ artist.name }}" class = "chkvalues">&nbsp;&nbsp;{{ artist.name }}</li>
+                        {% endfor %}
+                    </ul>
+                    <input type = "hidden" id = "artistInput" name = "artistInput">
+                    <script>
+                        $(document).ready(function() {
+                            $('.chkvalues').click(function(){
+                                txt = "";
+                                console.log("Checkbox Clicked");
+                                $('.chkvalues:checked').each(function()
+                                {
+                                    txt += $(this).val() + ",";
+                                });
+                                txt = txt.substring(0, txt.length - 1);
+                                $('#artistInput').val(txt);
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                    Add Artist
+                </button>
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content clearfix">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <div class="modal-body">
+                                <h3 class="title">Add Artist</h3>
+                                <div class="form-group row">
+                                    <label for="addArtist" class="col-sm-4 col-form-label">Artist Name</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id = "artist" placeholder="Artist Name" name = "artist">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="dateOfBirth" class="col-sm-4 col-form-label">Date of Birth</label>
+                                    <div class="col-sm-7">
+                                        <input type="date" class="form-control" id="dob" placeholder="Date of Birth" name = "dob">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="bio" class="col-sm-4 col-form-label">Bio</label>
+                                    <div class="col-sm-7">
+                                        <textarea class="form-control" style = "resize:none;" id="bio" name="bio" placeholder="Bio" rows="5"></textarea>
+                                    </div>
+                                </div>
+                                <input type = "button" class="btn btn-primary" value = "Cancel" id = "cancelArtist">&nbsp;&nbsp;
+                                <input type = "button" class="btn btn-primary" value = "Save" id = "saveArtist">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+        </div>
+        <div class="form-group row">
+            <label for = "button" class="col-sm-3 col-form-label"></label>
+            <input type = "button" class="col-sm-1 btn btn-primary" value = "Cancel" id = "cancelSong">&nbsp;&nbsp;
+            <input type = "button" class="col-sm-1 btn btn-primary" value = "Save" id = "saveSong">
+        </div>
+    </form>
+</div>
+{% endblock %}

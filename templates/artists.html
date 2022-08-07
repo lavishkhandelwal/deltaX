@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="my-3 row">
+        <h1 class="lead col-sm-12 col-md-8">Top Artists</h1>
+    </div>
+    <div class="row", style="background-color: #ecebeb50; font-weight: bold;">
+        <div class="col-md-3">Artist</div>
+        <div class="col-md-2">Date of Birth</div>
+        <div class="col-md-3">Bio</div>
+        <div class="col-md-2">Songs</div>
+        <div class="col-md-2">Ratings</div>
+    </div>
+    <div class="row">
+    {% for artist in artists %}
+        <div class="col-md-3">{{ artist.name }}</div>
+        <div class="col-md-2">{{ artist.dob }}</div>
+        <div class="col-md-3">{{ artist.bio }}</div>
+        <div class="col-md-2">{% for song in artist.songs.all %} {{ song }}<br> {% endfor %}</div>
+        <div class="col-md-2">{{ artist.rate|floatformat:2 }}</div>
+        <hr>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}
