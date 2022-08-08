@@ -2,7 +2,7 @@ from artists.models import Artist
 from .models import Song
 from django.shortcuts import render
 from django.http import JsonResponse
-from ratings.models import Ratings
+from django.contrib.auth.decorators import login_required
 
 # Create your views here 
 def index(request):
@@ -10,6 +10,7 @@ def index(request):
     songs = Song.objects.all().order_by('-rate')
     return render(request, 'songs.html', {'songs': songs})
 
+@login_required(login_url = '/login/')
 def add(request):
     artists = Artist.objects.all().order_by('name')
     if request.method == 'POST':

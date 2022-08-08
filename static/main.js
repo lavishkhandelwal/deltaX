@@ -1,10 +1,3 @@
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
-
 $("#saveArtist").click(function (){
     output = "";
     let artist = $('#artist').val();
@@ -23,8 +16,8 @@ $("#saveArtist").click(function (){
                     output += '<li class="dropdown-item"><input type = "checkbox" value = ' + x[i].name + '>&nbsp;&nbsp;' + x[i].name + '</li>'
                 }
                 alert("Success! Artist Saved.")
-                $("#artist-drop-down").html(output);
                 $("#post-form").trigger("reset");
+                $("#artist-drop-down").html(output);
             }
             if(data.msg == "0"){
                 alert("Artist Already Exits.")
@@ -46,14 +39,10 @@ $("#saveSong").click(function (){
         processData: false,
         contentType: false,
         success: function (data) {
-            x = data.artists_data;
             if(data.msg == "Save"){
-                for(i = 0; i < x.length; i++){
-                    output += '<li class="dropdown-item"><input type = "checkbox" value = ' + x[i].name + '>&nbsp;&nbsp;' + x[i].name + '</li>'
-                }
                 alert("Success! Song Saved.")
-                $("#artist-drop-down").html(output);
                 $("#post-form").trigger("reset");
+                $("#artist-drop-down").html(output);
             }
             if(data.msg == "0"){
                 alert("Song Already Exits.")
